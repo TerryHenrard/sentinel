@@ -1,0 +1,31 @@
+### Test Censorship API
+POST http://localhost:5083/censorship/censor
+Content-Type: application/json
+
+{
+  "Text": "This is a test with hate speech and violence that should be censored."
+}
+
+### Test with empty text (should return 400 Bad Request)
+POST http://localhost:5083/censorship/censor
+Content-Type: application/json
+
+{
+  "Text": ""
+}
+
+### Test with no banned words
+POST http://localhost:5083/censorship/censor
+Content-Type: application/json
+
+{
+  "Text": "This is a clean text with no banned words."
+}
+
+### Test with different case (should be case-insensitive)
+POST http://localhost:5083/censorship/censor
+Content-Type: application/json
+
+{
+  "Text": "This contains HATE and Violence and Discriminate words."
+}
