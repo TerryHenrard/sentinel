@@ -7,9 +7,9 @@ function updateButtonState() {
 
     toggleButton.textContent = isExtensionActive ? "Desactiver" : "Activer";
     if (isExtensionActive) {
-        toggleButton.style.backgroundColor = "#ef4444"; // Rouge pour désactiver
+        toggleButton.style.backgroundColor = "#ef4444";
     } else {
-        toggleButton.style.backgroundColor = "#3b82f6"; // Bleu pour activer
+        toggleButton.style.backgroundColor = "#3b82f6";
     }
 }
 
@@ -28,19 +28,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.log("Éléments DOM récupérés avec succès");
 
-        // Récupérer l'état de l'extension depuis le stockage
         chrome.storage.local.get(['isActive'], function (result) {
             try {
                 console.log("Callback storage.get exécuté");
                 isExtensionActive = result.isActive === true;
                 console.log("État initial de l'extension:", isExtensionActive);
 
-                // Mettre à jour l'interface
                 updateButtonState();
                 messageDiv.textContent = isExtensionActive ? "Extension active" : "Extension inactive";
                 messageDiv.style.color = isExtensionActive ? "#10b981" : "#ef4444";
 
-                // Si l'extension est active, exécuter la fonction principale
                 if (isExtensionActive) {
                     onWindowLoad();
                 }
@@ -54,12 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 isExtensionActive = !isExtensionActive;
                 console.log("Nouvel état de l'extension:", isExtensionActive);
 
-                // Sauvegarder l'état
                 chrome.storage.local.set({ isActive: isExtensionActive }, function () {
                     try {
                         console.log("État sauvegardé:", isExtensionActive);
 
-                        // Mise à jour de l'interface
                         updateButtonState();
                         messageDiv.textContent = isExtensionActive ? "Extension active" : "Extension inactive";
                         messageDiv.style.color = isExtensionActive ? "#10b981" : "#ef4444";
@@ -115,7 +110,7 @@ function onWindowLoad() {
                 args: [{
                     "inutile": "pas utile",
                     "nul": "fort"
-                }, isExtensionActive], // Passer l'état comme argument
+                }, isExtensionActive],
             });
         });
     }).catch(function (error) {
@@ -156,7 +151,6 @@ function correctText(text) {
 }
 
 function replaceNodes(corrections, isActive) {
-    // Utiliser isActive passé en argument au lieu de isExtensionActive global
     if (!isActive) return;
 
     const treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
