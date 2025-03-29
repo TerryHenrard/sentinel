@@ -16,15 +16,19 @@ namespace backend.Controllers
         private readonly CensorAgent _censorAgent = censorAgent;
 
         [HttpPost("censor")]
-        public async Task<IActionResult> CensorContent([FromBody] string request)
+        public async Task<IActionResult> CensorContent([FromBody] ContentRequestDTO request)
         {
-            System.Console.WriteLine("test");
-            if (string.IsNullOrEmpty(request))
+            
+            System.Console.WriteLine($"Received request: {request.Text}");
+
+            if (string.IsNullOrEmpty(request.Text))
             {
                 return BadRequest("Text cannot be empty");
             }
 
-            string requestText = request;
+            
+
+            string requestText = request.Text;
 
             string response = await _censorAgent.Run(requestText);
 

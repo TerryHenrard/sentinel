@@ -100,7 +100,7 @@ async function onWindowLoad() {
             response += nodes[i]
         }
 
-        const requestBody = JSON.stringify({ content: response });
+        response = JSON.stringify({ "text": response });
 
         console.log("Reponse : " + response)
 
@@ -108,7 +108,7 @@ async function onWindowLoad() {
 
         let json_response = await fetch(url, {
             method: "POST",
-            body: requestBody,
+            body: response,
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
