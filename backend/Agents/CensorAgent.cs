@@ -64,6 +64,7 @@ namespace backend.Agents
         public async Task<string> Run(string content)
         {
             _logger.LogInformation("ℹ️ ======== Censor Agent: Starting ========");
+            _logger.LogInformation("ℹ️ Censor Agent: Received content to analyze: {Content}", content);
 
             ChatHistory agentChatHistory = new(CENSOR_SYSTEM_MESSAGE);
 
