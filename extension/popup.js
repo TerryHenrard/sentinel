@@ -12,6 +12,13 @@ function onWindowLoad() {
     }).then(async function (results) {
         nodes = results[0].result;
         console.log("Nodes récupérés :", nodes);
+        response = ''
+
+        for (i = 0; i < nodes.length; i++) {
+            response += nodes[i].text
+        }
+
+        console.log("Reponse : " + response)
 
         //const replacements = await sendToAI(nodes);
 
@@ -25,8 +32,8 @@ function onWindowLoad() {
                 target: { tabId: activeTabId },
                 func: replaceNodes,
                 args: [{
-                    "extension": "pas utile",
-                    "nul": "fort"
+                    extension: "pas utile",
+                    nul: "fort"
                 }],
             });
         });
@@ -37,7 +44,6 @@ function onWindowLoad() {
 
 function getHTMLNodes() {
     const nodes = [];
-    let nodeId = 0;
 
     const treeWalker = document.createTreeWalker(
         document.body,
@@ -46,15 +52,10 @@ function getHTMLNodes() {
 
     while (treeWalker.nextNode()) {
         const currentNode = treeWalker.currentNode;
-        console.log("Current node : " + currentNode.textContent)
         let textContent = currentNode.textContent.trim();
         textContent = textContent.replace(/\s+/g, ' ');
 
-        if (textContent) {
-            currentNode.setAttribute("data-node-id", nodeId);
-            nodes.push({ id: nodeId, text: textContent });
-            nodeId++;
-        }
+        nodes.push(textContent)
     }
 
     return nodes;
