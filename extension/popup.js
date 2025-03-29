@@ -75,7 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-function onWindowLoad() {
+async function onWindowLoad() {
+    let aiResponse;
+
     chrome.tabs.query({ active: true, currentWindow: true }).then(function (tabs) {
         const activeTab = tabs[0];
         const activeTabId = activeTab.id;
@@ -92,13 +94,34 @@ function onWindowLoad() {
 
         nodes = results[0].result;
         console.log("Nodes récupérés :", nodes);
-        response = ''
+        let response = "";
 
         for (i = 0; i < nodes.length; i++) {
-            response += nodes[i].text
+            response += nodes[i]
         }
 
+        response = JSON.stringify({ "text": response });
+
         console.log("Reponse : " + response)
+
+        const url = "http://localhost:5083/Censorship/censor";
+
+        let json_response = await fetch(url, {
+            method: "POST",
+            body: response,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        });
+
+        if(json_response.status !== 200) {
+            console.error("Erreur lors de la requête:", json_response.statusText);
+            return;
+        }
+
+        let json = await json_response.json();
+        console.log("Réponse JSON:", json);
 
         chrome.tabs.query({ active: true, currentWindow: true }).then(function (tabs) {
             const activeTab = tabs[0];
