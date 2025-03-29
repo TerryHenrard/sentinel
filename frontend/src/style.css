@@ -52,3 +52,87 @@ body {
         .highlight {
             background-color: #ffe6e6;
         }
+
+/* Style pour la section commentaires */
+.comments-section {
+    margin-top: 10px;
+    padding: 0 15px 15px;
+    border-top: 1px solid #e1e1e1;
+    display: block; 
+}
+
+.comment {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.comment-header img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.comment-header strong {
+    margin-right: 5px;
+}
+
+.comment-header span {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.comment-content {
+    margin-left: 32px;
+    font-size: 0.95em;
+    line-height: 1.3;
+}
+
+.add-comment {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.add-comment img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.add-comment input {
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-right: 10px;
+}
+
+.add-comment button {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.add-comment button:hover {
+    background-color: #0c85d0;
+}
+
+/* Pour rendre le bouton commentaire plus interactif */
+.comment-btn {
+    cursor: pointer;
+}
+
+.comment-btn:hover {
+    color: #1da1f2;
+}
