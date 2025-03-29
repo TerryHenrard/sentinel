@@ -422,3 +422,10 @@ obj/
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,visualstudiocode,dotnetcore
+
+.env
+/.env
+.env/
+backend/.env
+
+.package-lock.json

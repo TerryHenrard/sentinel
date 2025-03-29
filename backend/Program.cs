@@ -1,3 +1,5 @@
+using backend.Configurations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +17,14 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
+
+/* === AZURE OPENAI CONFIGURATION === */
+builder.Services.Configure<AOAIOptions>(builder.Configuration.GetSection("AOAI"));
+/* === END AZURE OPENAI CONFIGURATION === */
+
+/* === AZURE VISION CONFIGURATION === */
+builder.Services.Configure<AzureVisionOptions>(builder.Configuration.GetSection("AZUREVISION"));
+/* === END AZURE VISION CONFIGURATION === */
 
 var app = builder.Build();
 
