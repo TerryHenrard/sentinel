@@ -1,10 +1,14 @@
 {
   "name": "Sentinel",
-  "description": "Base Level Extension",
+  "description": "Get the html page and send it to AI",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "popup.html",
     "default_icon": "static/attention.jpg"
-  }
+  },
+  "permissions":[
+    "scripting",
+    "activeTab"
+  ]
 }
