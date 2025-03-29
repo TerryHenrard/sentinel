@@ -3,10 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="script.js" defer></script>
-    <title>Sentinel</title>
+    <title>SocialApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .post {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .post-header .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .post-header img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .post-content {
+            margin-top: 12px;
+        }
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            color: #555;
+        }
+        .post-footer button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #555;
+        }
+        .post-footer button:hover {
+            color: #000;
+        }
+        .highlight {
+            background-color: #ffe6e6;
+        }
+    </style>
 </head>
 <body>
-    <div id="root"></div>
+    <div class="container">
+        <header>
+            <h1>SocialApp</h1>
+        </header>
+        <main>
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="../assets/images/UserIcon.png" alt="Alex Johnson">
+                        <div>
+                            <strong>Alex Johnson</strong> <span>@alexj</span>
+                        </div>
+                    </div>
+                    <span>2h</span>
+                </div>
+                <div class="post-content">
+                    Je viens de terminer un livre incroyable ! Je le recommande vivement à tout le monde. Qu'est-ce que vous lisez ces jours-ci ?
+                </div>
+                <div class="post-footer">
+                    <button>💬 5</button>
+                    <button>🔁 2</button>
+                    <button>❤️ 24</button>
+                    <button>🔗</button>
+                </div>
+            </div>
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="../assets/images/UserIcon.png" alt="Sam Wilson">
+                        <div>
+                            <strong>Abdel Ougheniz</strong> <span>@AbdelOgz</span>
+                        </div>
+                    </div>
+                    <span>3h</span>
+                </div>
+                <div class="post-content">
+                    Alex t'es trop nul au foot. Tu devrais arreter le foot. T'es inutile!</div>
+                <div class="post-footer">
+                    <button>💬 12</button>
+                    <button>🔁 0</button>
+                    <button>❤️ 3</button>
+                    <button>🔗</button>
+                </div>
+            </div>
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="../assets/images/UserIcon.png" alt="Taylor Smith">
+                        <div>
+                            <strong>Taylor Smith</strong> <span>@taylors</span>
+                        </div>
+                    </div>
+                    <span>5h</span>
+                </div>
+                <div class="post-content">
+                    Belle journée pour une randonnée ! La nature m'aide toujours à clarifier mon esprit. 🌲🏞️
+                </div>
+                <div class="post-footer">
+                    <button>💬 8</button>
+                    <button>🔁 4</button>
+                    <button>❤️ 56</button>
+                    <button>🔗</button>
+                </div>
+            </div>
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="../assets/images/UserIcon.png" alt="Jordan Lee">
+                        <div>
+                            <strong>Jordan Lee</strong> <span>@jlee</span>
+                        </div>
+                    </div>
+                    <span>6h</span>
+                </div>
+                <div class="post-content">
+                    Retourne dans ton pays @AbdelOgz, ton n'a pas besoin de gens comme toi ici!
+                </div>
+                <div class="post-footer">
+                    <button>💬 15</button>
+                    <button>🔁 1</button>
+                    <button>❤️ 2</button>
+                    <button>🔗</button>
+                </div>
+            </div>
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="../assets/images/UserIcon.png" alt="Casey Morgan">
+                        <div>
+                            <strong>Casey Morgan</strong> <span>@cmorgan</span>
+                        </div>
+                    </div>
+                    <span>8h</span>
+                </div>
+                <div class="post-content">
+                    Je viens de lancer mon nouveau site web ! Allez le voir et dites-moi ce que vous en pensez. Tellement excité de partager ce projet avec tout le monde !
+                </div>
+                <div class="post-footer">
+                    <button>💬 23</button>
+                    <button>🔁 12</button>
+                    <button>❤️ 89</button>
+                    <button>🔗</button>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
