@@ -8,7 +8,9 @@
     "default_icon": "static/attention.jpg"
   },
   "permissions":[
+    "storage",
     "scripting",
     "activeTab"
-  ]
+  ],
+  "host_permissions": ["<all_urls>"]
 }

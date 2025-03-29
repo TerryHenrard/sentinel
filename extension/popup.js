@@ -1,4 +1,79 @@
 let nodes;
+let isExtensionActive = false;
+
+function updateButtonState() {
+    const toggleButton = document.getElementById("toggle-extension");
+    if (!toggleButton) return;
+
+    toggleButton.textContent = isExtensionActive ? "Desactiver" : "Activer";
+    if (isExtensionActive) {
+        toggleButton.style.backgroundColor = "#ef4444";
+    } else {
+        toggleButton.style.backgroundColor = "#3b82f6";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    try {
+        const toggleButton = document.getElementById("toggle-extension");
+        if (!toggleButton) {
+            console.error("Élément toggle-extension introuvable!");
+            return;
+        }
+        const messageDiv = document.getElementById("message");
+        if (!messageDiv) {
+            console.error("Élément message introuvable!");
+            return;
+        }
+
+        console.log("Éléments DOM récupérés avec succès");
+
+        chrome.storage.local.get(['isActive'], function (result) {
+            try {
+                console.log("Callback storage.get exécuté");
+                isExtensionActive = result.isActive === true;
+                console.log("État initial de l'extension:", isExtensionActive);
+
+                updateButtonState();
+                messageDiv.textContent = isExtensionActive ? "Extension active" : "Extension inactive";
+                messageDiv.style.color = isExtensionActive ? "#10b981" : "#ef4444";
+
+                if (isExtensionActive) {
+                    onWindowLoad();
+                }
+            } catch (innerError) {
+                console.error("Erreur dans le callback storage:", innerError);
+            }
+        });
+
+        toggleButton.addEventListener("click", function () {
+            try {
+                isExtensionActive = !isExtensionActive;
+                console.log("Nouvel état de l'extension:", isExtensionActive);
+
+                chrome.storage.local.set({ isActive: isExtensionActive }, function () {
+                    try {
+                        console.log("État sauvegardé:", isExtensionActive);
+
+                        updateButtonState();
+                        messageDiv.textContent = isExtensionActive ? "Extension active" : "Extension inactive";
+                        messageDiv.style.color = isExtensionActive ? "#10b981" : "#ef4444";
+
+                        if (isExtensionActive) {
+                            onWindowLoad();
+                        }
+                    } catch (innerError) {
+                        console.error("Erreur dans le callback storage.set:", innerError);
+                    }
+                });
+            } catch (clickError) {
+                console.error("Erreur dans l'event click:", clickError);
+            }
+        });
+    } catch (error) {
+        console.error("Erreur générale dans DOMContentLoaded:", error);
+    }
+});
 
 function onWindowLoad() {
     chrome.tabs.query({ active: true, currentWindow: true }).then(function (tabs) {
@@ -10,12 +85,20 @@ function onWindowLoad() {
             func: getHTMLNodes,
         });
     }).then(async function (results) {
+        if (!results || results.length === 0) {
+            console.log("Aucun résultat reçu");
+            return;
+        }
+
         nodes = results[0].result;
         console.log("Nodes récupérés :", nodes);
+        response = ''
 
-        //const replacements = await sendToAI(nodes);
+        for (i = 0; i < nodes.length; i++) {
+            response += nodes[i].text
+        }
 
-        //console.log("Suggestions de remplacement :", replacements);
+        console.log("Reponse : " + response)
 
         chrome.tabs.query({ active: true, currentWindow: true }).then(function (tabs) {
             const activeTab = tabs[0];
@@ -25,9 +108,9 @@ function onWindowLoad() {
                 target: { tabId: activeTabId },
                 func: replaceNodes,
                 args: [{
-                    "extension": "pas utile",
+                    "inutile": "pas utile",
                     "nul": "fort"
-                }],
+                }, isExtensionActive],
             });
         });
     }).catch(function (error) {
@@ -37,7 +120,6 @@ function onWindowLoad() {
 
 function getHTMLNodes() {
     const nodes = [];
-    let nodeId = 0;
 
     const treeWalker = document.createTreeWalker(
         document.body,
@@ -46,15 +128,10 @@ function getHTMLNodes() {
 
     while (treeWalker.nextNode()) {
         const currentNode = treeWalker.currentNode;
-        console.log("Current node : " + currentNode.textContent)
         let textContent = currentNode.textContent.trim();
         textContent = textContent.replace(/\s+/g, ' ');
 
-        if (textContent) {
-            currentNode.setAttribute("data-node-id", nodeId);
-            nodes.push({ id: nodeId, text: textContent });
-            nodeId++;
-        }
+        nodes.push(textContent)
     }
 
     return nodes;
@@ -73,7 +150,9 @@ function correctText(text) {
     return text
 }
 
-function replaceNodes(corrections) {
+function replaceNodes(corrections, isActive) {
+    if (!isActive) return;
+
     const treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
 
     let node;
@@ -85,5 +164,3 @@ function replaceNodes(corrections) {
         node.nodeValue = text;
     }
 }
-
-onWindowLoad();
