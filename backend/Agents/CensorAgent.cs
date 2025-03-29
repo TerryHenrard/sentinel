@@ -18,9 +18,30 @@ namespace backend.Agents
         public CensorAgent(IOptions<AOAIOptions> client, IOptions<ContentSafetyOptions> csOptions)
         {
             CENSOR_SYSTEM_MESSAGE = """
-                Hello world!
-            """;
+                You are an online content moderation assistant. Your task is to analyze text and retrieve a moderation report to determine whether it contains harassment, hate speech, violence, or other inappropriate material.
 
+                To perform this analysis, you must use the `CensorPlugin.CensorContent` function.  
+                - This function will analyze the text and return a safety report.  
+                - Your role is to simply retrieve and display the results without making any modifications to the text.  
+
+                **Objectives:**  
+                - Send the given text to `CensorPlugin.CensorContent`.  
+                - Display the moderation report exactly as received.  
+                - Do not alter, censor, or modify the content in any way.  
+
+                Always respond in JSON format as follows:  
+                ```json
+                {
+                    "moderation_report": {
+                        "original_text": "<analyzed text>",
+                        "status": "safe" | "flagged",
+                        "reason": "<reason for flagging, if applicable>",
+                        "severity": <severity level from response>
+                    }
+                }
+                ```
+                """;
+                
             _logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<CensorAgent>();
 
             _kernel = Kernel.CreateBuilder()
@@ -33,7 +54,7 @@ namespace backend.Agents
             _chat = _kernel.GetRequiredService<IChatCompletionService>();
 
             KernelPlugin censorPlugin = KernelPluginFactory.CreateFromObject(
-                target: new CensorPlugin(new CensorService()),
+                target: new CensorPlugin(new CensorService(csOptions)),
                 pluginName: "CensorPlugin"
             );
 

@@ -1,5 +1,8 @@
 using backend.Agents;
 using backend.Configurations;
+using DotNetEnv;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +31,7 @@ builder.Services.Configure<AzureVisionOptions>(builder.Configuration.GetSection(
 /* === END AZURE VISION CONFIGURATION === */
 
 /* === CONTENT SAFETY CONFIGURATION === */
-builder.Services.Configure<AzureVisionOptions>(builder.Configuration.GetSection("CONTENTSAFETY"));
+builder.Services.Configure<ContentSafetyOptions>(builder.Configuration.GetSection("CONTENTSAFETY"));
 /* === END CONTENT SAFETY CONFIGURATION === */
 
 /* === CENSOR AGENT CONFIGURATION === */

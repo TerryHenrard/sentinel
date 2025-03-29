@@ -1,30 +1,36 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using backend.DTO;
+using backend.Agents;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using backend.Configurations;
+using backend.Services;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CensorshipController : ControllerBase
+    public class CensorshipController(CensorAgent censorAgent, IOptions<ContentSafetyOptions> csOptions) : ControllerBase
     {
+        private readonly CensorAgent _censorAgent = censorAgent;
+        private readonly CensorService _censorService = new(csOptions);
+
         [HttpPost("censor")]
-        public IActionResult CensorContent([FromBody] ContentRequestDTO request)
+        public async Task<IActionResult> CensorContent([FromBody] ContentRequestDTO request)
         {
             if (string.IsNullOrEmpty(request.Text))
             {
                 return BadRequest("Text cannot be empty");
             }
 
-            string[] bannedWords = new[] { "hate", "racist", "violence", "discriminate" };
+            string requestText = request.Text;
 
-            string censoredText = request.Text;
-            foreach (string word in bannedWords)
-            {
-                censoredText = Regex.Replace(censoredText, word, new string('*', word.Length), RegexOptions.IgnoreCase);
-            }
+            //string response = await _censorAgent.Run(requestText);
 
-            return Ok(new ContentResponseDTO { OriginalText = censoredText });
+            string response = await _censorService.CensorContent(requestText);
+
+            return Ok(response);
         }
     }
 }

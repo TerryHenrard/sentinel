@@ -3,7 +3,7 @@ POST http://localhost:5083/censorship/censor
 Content-Type: application/json
 
 {
-  "Text": "This is a test with hate speech and violence that should be censored."
+  "Text": "Tu es nul au foot. Il faut que tu arrêtes, tu sers à rien dans la vie."
 }
 
 ### Test with empty text (should return 400 Bad Request)
