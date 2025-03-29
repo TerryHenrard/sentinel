@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script defer src="script.js"></script>
     <title>SocialApp</title>
 </head>
 
@@ -30,10 +30,50 @@
                     vous lisez ces jours-ci ?
                 </div>
                 <div class="post-footer">
-                    <button>💬 5</button>
+                    <button class="comment-btn">💬 5</button>
                     <button>🔁 2</button>
                     <button>❤️ 24</button>
                     <button>🔗</button>
+                </div>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Marie Dupont">
+                            <div>
+                                <strong>Marie Dupont</strong> <span>@mariedpt</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Quel est le titre du livre ? Je cherche justement de nouvelles lectures !
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Thomas Bernard">
+                            <div>
+                                <strong>Thomas Bernard</strong> <span>@thomasb</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Encore un pseudo-intellectuel qui se vante de ses lectures... Tu sais, Netflix existe 🙄
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Julien Moreau">
+                            <div>
+                                <strong>Julien Moreau</strong> <span>@jmoreau</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Si c'est un de ces bouquins de développement personnel, épargne-nous les détails mdr
+                        </div>
+                    </div>
+                    <div class="add-comment">
+                        <img src="../assets/images/UserIcon.png" alt="Vous">
+                        <input type="text" placeholder="Ajouter un commentaire...">
+                        <button>Envoyer</button>
+                    </div>
                 </div>
             </div>
             <div class="post">
@@ -49,10 +89,50 @@
                 <div class="post-content">
                     Alex t'es trop nul au foot. Tu devrais arreter le foot. T'es inutile!</div>
                 <div class="post-footer">
-                    <button>💬 12</button>
+                    <button class="comment-btn">💬 12</button>
                     <button>🔁 0</button>
                     <button>❤️ 3</button>
                     <button>🔗</button>
+                </div>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Alex Johnson">
+                            <div>
+                                <strong>Alex Johnson</strong> <span>@alexj</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            C'est pas très sympa ce que tu dis là. On peut en parler en privé ?
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Sarah Martin">
+                            <div>
+                                <strong>Sarah Martin</strong> <span>@smartin</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Laisse-le tranquille @AbdelOgz, c'est pas de sa faute si t'es frustré de ta propre nullité !
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Kevin Petit">
+                            <div>
+                                <strong>Kevin Petit</strong> <span>@kevinp</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            MDR la vérité fait mal mais Abdel a raison, Alex est juste bon à réchauffer le banc 😂
+                        </div>
+                    </div>
+                    <div class="add-comment">
+                        <img src="../assets/images/UserIcon.png" alt="Vous">
+                        <input type="text" placeholder="Ajouter un commentaire...">
+                        <button>Envoyer</button>
+                    </div>
                 </div>
             </div>
             <div class="post">
@@ -69,10 +149,51 @@
                     Belle journée pour une randonnée ! La nature m'aide toujours à clarifier mon esprit. 🌲🏞️
                 </div>
                 <div class="post-footer">
-                    <button>💬 8</button>
+                    <button class="comment-btn">💬 8</button>
                     <button>🔁 4</button>
                     <button>❤️ 56</button>
                     <button>🔗</button>
+                </div>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Pierre Lemoine">
+                            <div>
+                                <strong>Pierre Lemoine</strong> <span>@plemoine</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Superbe photo ! Où est-ce que c'était ?
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Emma Petit">
+                            <div>
+                                <strong>Emma Petit</strong> <span>@emmapetit</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Encore une qui poste des photos de nature pour faire croire qu'elle a une vie
+                            interessante... 🙄
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="David Blanc">
+                            <div>
+                                <strong>David Blanc</strong> <span>@davidb</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Super, encore une écolo qui va nous faire la leçon sur comment sauver la planète...
+                        </div>
+                    </div>
+                    <div class="add-comment">
+                        <img src="../assets/images/UserIcon.png" alt="Vous">
+                        <input type="text" placeholder="Ajouter un commentaire...">
+                        <button>Envoyer</button>
+                    </div>
                 </div>
             </div>
             <div class="post">
@@ -89,10 +210,50 @@
                     Retourne dans ton pays @AbdelOgz, ton n'a pas besoin de gens comme toi ici!
                 </div>
                 <div class="post-footer">
-                    <button>💬 15</button>
+                    <button class="comment-btn">💬 15</button>
                     <button>🔁 1</button>
                     <button>❤️ 2</button>
                     <button>🔗</button>
+                </div>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Abdel Ougheniz">
+                            <div>
+                                <strong>Abdel Ougheniz</strong> <span>@AbdelOgz</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Ce genre de propos n'a pas sa place ici. Je vais signaler ce message.
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Lucas Martin">
+                            <div>
+                                <strong>Lucas Martin</strong> <span>@lucasm</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Franchement Jordan a raison, on peut plus rien dire dans ce pays sans qu'on nous censure 🤬
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Marie Dubois">
+                            <div>
+                                <strong>Marie Dubois</strong> <span>@mariedub</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Arrête de jouer la victime @AbdelOgz, tu viens ici et tu t'étonnes qu'on te dise la vérité ?
+                        </div>
+                    </div>
+                    <div class="add-comment">
+                        <img src="../assets/images/UserIcon.png" alt="Vous">
+                        <input type="text" placeholder="Ajouter un commentaire...">
+                        <button>Envoyer</button>
+                    </div>
                 </div>
             </div>
             <div class="post">
@@ -110,10 +271,51 @@
                     Tellement excité de partager ce projet avec tout le monde !
                 </div>
                 <div class="post-footer">
-                    <button>💬 23</button>
+                    <button class="comment-btn">💬 23</button>
                     <button>🔁 12</button>
                     <button>❤️ 89</button>
                     <button>🔗</button>
+                </div>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Lucas Dubois">
+                            <div>
+                                <strong>Lucas Dubois</strong> <span>@ldubois</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Bravo pour ton site ! Le design est vraiment bien pensé.
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Thomas Lefebvre">
+                            <div>
+                                <strong>Thomas Lefebvre</strong> <span>@tomlef</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            J'ai vu ton site... On dirait un projet de collégien. T'appelles ça un design ? 😂
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-header">
+                            <img src="../assets/images/UserIcon.png" alt="Sophie Garcia">
+                            <div>
+                                <strong>Sophie Garcia</strong> <span>@sophieg</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Encore un "développeur" qui pense révolutionner le web avec un template WordPress...
+                            Pathétique.
+                        </div>
+                    </div>
+                    <div class="add-comment">
+                        <img src="../assets/images/UserIcon.png" alt="Vous">
+                        <input type="text" placeholder="Ajouter un commentaire...">
+                        <button>Envoyer</button>
+                    </div>
                 </div>
             </div>
         </main>
