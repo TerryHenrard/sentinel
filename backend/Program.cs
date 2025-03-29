@@ -1,3 +1,4 @@
+using backend.Agents;
 using backend.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,14 @@ builder.Services.Configure<AOAIOptions>(builder.Configuration.GetSection("AOAI")
 /* === AZURE VISION CONFIGURATION === */
 builder.Services.Configure<AzureVisionOptions>(builder.Configuration.GetSection("AZUREVISION"));
 /* === END AZURE VISION CONFIGURATION === */
+
+/* === CONTENT SAFETY CONFIGURATION === */
+builder.Services.Configure<AzureVisionOptions>(builder.Configuration.GetSection("CONTENTSAFETY"));
+/* === END CONTENT SAFETY CONFIGURATION === */
+
+/* === CENSOR AGENT CONFIGURATION === */
+builder.Services.AddSingleton<CensorAgent>();
+/* === END CENSOR AGENT CONFIGURATION === */
 
 var app = builder.Build();
 

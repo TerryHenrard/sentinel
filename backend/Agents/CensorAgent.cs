@@ -1,4 +1,6 @@
 using backend.Configurations;
+using backend.Plugins;
+using backend.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
@@ -13,7 +15,7 @@ namespace backend.Agents
         private readonly Kernel _kernel;
         private readonly string CENSOR_SYSTEM_MESSAGE;
 
-        public CensorAgent(IOptions<AOAIOptions> client)
+        public CensorAgent(IOptions<AOAIOptions> client, IOptions<ContentSafetyOptions> csOptions)
         {
             CENSOR_SYSTEM_MESSAGE = """
                 Hello world!
@@ -29,6 +31,13 @@ namespace backend.Agents
                 )
                 .Build();
             _chat = _kernel.GetRequiredService<IChatCompletionService>();
+
+            KernelPlugin censorPlugin = KernelPluginFactory.CreateFromObject(
+                target: new CensorPlugin(new CensorService()),
+                pluginName: "CensorPlugin"
+            );
+
+            _kernel.Plugins.Add(censorPlugin);
         }
         
         public async Task<string> Run(string content)
