@@ -11,10 +11,9 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CensorshipController(CensorAgent censorAgent, IOptions<ContentSafetyOptions> csOptions) : ControllerBase
+    public class CensorshipController(CensorAgent censorAgent) : ControllerBase
     {
         private readonly CensorAgent _censorAgent = censorAgent;
-        private readonly CensorService _censorService = new(csOptions);
 
         [HttpPost("censor")]
         public async Task<IActionResult> CensorContent([FromBody] ContentRequestDTO request)
@@ -26,9 +25,7 @@ namespace backend.Controllers
 
             string requestText = request.Text;
 
-            //string response = await _censorAgent.Run(requestText);
-
-            string response = await _censorService.CensorContent(requestText);
+            string response = await _censorAgent.Run(requestText);
 
             return Ok(response);
         }

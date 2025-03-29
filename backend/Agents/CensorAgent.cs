@@ -18,22 +18,26 @@ namespace backend.Agents
         public CensorAgent(IOptions<AOAIOptions> client, IOptions<ContentSafetyOptions> csOptions)
         {
             CENSOR_SYSTEM_MESSAGE = """
-                You are an online content moderation assistant. Your task is to analyze text and retrieve a moderation report to determine whether it contains harassment, hate speech, violence, or other inappropriate material.
-
-                To perform this analysis, you must use the `CensorPlugin.CensorContent` function.  
-                - This function will analyze the text and return a safety report.  
-                - Your role is to simply retrieve and display the results without making any modifications to the text.  
+                You are an online content moderation assistant. Your task is to analyze text and identify 
+                any potentially harmful or inappropriate content, such as harassment, hate speech, violence, or other 
+                offensive material.
 
                 **Objectives:**  
-                - Send the given text to `CensorPlugin.CensorContent`.  
-                - Display the moderation report exactly as received.  
-                - Do not alter, censor, or modify the content in any way.  
+                - Analyze the provided text to identify words or phrases that may be inappropriate.
+                - Provide an alternative for any identified problematic content while maintaining the original context.
+                - Respond with both the problematic text and the proposed alternative, clearly indicating the change.
 
                 Always respond in JSON format as follows:  
                 ```json
                 {
                     "moderation_report": {
                         "original_text": "<analyzed text>",
+                        "flagged_phrases": [
+                            {
+                                "problematic_phrase": "<problematic phrase>",
+                                "suggested_alternative": "<alternative phrase>"
+                            }
+                        ],
                         "status": "safe" | "flagged",
                         "reason": "<reason for flagging, if applicable>",
                         "severity": <severity level from response>
@@ -53,12 +57,12 @@ namespace backend.Agents
                 .Build();
             _chat = _kernel.GetRequiredService<IChatCompletionService>();
 
-            KernelPlugin censorPlugin = KernelPluginFactory.CreateFromObject(
+            /* KernelPlugin censorPlugin = KernelPluginFactory.CreateFromObject(
                 target: new CensorPlugin(new CensorService(csOptions)),
                 pluginName: "CensorPlugin"
             );
 
-            _kernel.Plugins.Add(censorPlugin);
+            _kernel.Plugins.Add(censorPlugin); */
         }
         
         public async Task<string> Run(string content)
