@@ -98,149 +98,167 @@ async function onWindowLoad() {
       const activeTab = tabs[0];
       const activeTabId = activeTab.id;
 
-      // Injecter le CSS dans la page web
-      chrome.scripting
-        .insertCSS({
-          target: { tabId: activeTabId },
-          files: ["censored-content.css"],
-        })
-        .catch((error) => {
-          console.error("Erreur lors de l'injection CSS:", error);
-        });
+      // Vérifier si l'onglet a déjà été traité
+      return chrome.storage.local.get(["processedTabs"], function (result) {
+        const processedTabs = result.processedTabs || {};
 
-      return chrome.scripting.executeScript({
-        target: { tabId: activeTabId },
-        func: getHTMLNodes,
-      });
-    })
-    .then(async function (results) {
-      if (!results || results.length === 0) {
-        console.log("Aucun résultat reçu");
-        return;
-      }
-
-      nodes = results[0].result;
-      console.log("Nodes récupérés :", nodes);
-      let response = "";
-
-      for (i = 0; i < nodes.length; i++) {
-        response += nodes[i];
-      }
-
-      response = JSON.stringify({ text: response });
-
-      console.log("Reponse : " + response);
-
-      //   const url = "http://localhost:5083/Censorship/censor";
-
-      //   let json_response = await fetch(url, {
-      //     method: "POST",
-      //     body: response,
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Accept: "application/json",
-      //     },
-      //   });
-
-      //   if (json_response.status !== 200) {
-      //     console.error("Erreur lors de la requête:", json_response.statusText);
-      //     return;
-      //   }
-
-      //   let json = await json_response.json();
-      //   console.log("Réponse JSON:", json);
-
-      chrome.tabs
-        .query({ active: true, currentWindow: true })
-        .then(function (tabs) {
-          const activeTab = tabs[0];
-          const activeTabId = activeTab.id;
-
-          chrome.scripting.executeScript({
+        // Injecter le CSS dans la page web (toujours nécessaire)
+        chrome.scripting
+          .insertCSS({
             target: { tabId: activeTabId },
-            func: replaceNodes,
-            args: [
-              [
-                {
-                  originalContent:
-                    "Encore un pseudo-intellectuel qui se vante de ses lectures... Tu sais, Netflix existe",
-                  censorContent:
-                    "Chacun ses passions, mais je préfère Netflix personnellement",
-                  severity: "low",
-                },
-                {
-                  originalContent:
-                    "Alex t'es trop nul au foot. Tu devrais arreter le foot. T'es inutile!",
-                  censorContent:
-                    "Alex, peut-être que le foot n'est pas ton point fort, mais chacun a ses talents.",
-                  severity: "medium",
-                },
-                {
-                  originalContent:
-                    "Laisse-le tranquille @AbdelOgz, c'est pas de sa faute si t'es frustré de ta propre nullité !",
-                  censorContent:
-                    "Laisse-le tranquille @AbdelOgz, chacun a ses moments difficiles.",
-                  severity: "medium",
-                },
-                {
-                  originalContent:
-                    "MDR la vérité fait mal mais Abdel a raison, Alex est juste bon à réchauffer le banc",
-                  censorContent:
-                    "MDR, chacun a ses forces, mais peut-être qu'Alex peut s'améliorer avec le temps",
-                  severity: "low",
-                },
-                {
-                  originalContent:
-                    "Encore une qui poste des photos de nature pour faire croire qu'elle a une vie interessante...",
-                  censorContent:
-                    "Chacun partage ce qu'il aime, et la nature peut être inspirante",
-                  severity: "low",
-                },
-                {
-                  originalContent:
-                    "Super, encore une écolo qui va nous faire la leçon sur comment sauver la planète...",
-                  censorContent:
-                    "C'est bien de voir des gens partager leur passion pour la nature et l'environnement.",
-                  severity: "low",
-                },
-                {
-                  originalContent:
-                    "Retourne dans ton pays @AbdelOgz, ton n'a pas besoin de gens comme toi ici!",
-                  censorContent:
-                    "Ce genre de propos est inapproprié. Respectons les autres, peu importe leur origine.",
-                  severity: "high",
-                },
-                {
-                  originalContent:
-                    "Franchement Jordan a raison, on peut plus rien dire dans ce pays sans qu'on nous censure",
-                  censorContent:
-                    "Il est important de discuter avec respect, même si les opinions diffèrent",
-                  severity: "medium",
-                },
-                {
-                  originalContent:
-                    "J'ai vu ton site... On dirait un projet de collégien. T'appelles ça un design ?",
-                  censorContent:
-                    "J'ai vu ton site, peut-être qu'il y a des points à améliorer, mais c'est un bon début !",
-                  severity: "low",
-                },
-                {
-                  originalContent:
-                    "Encore un 'développeur' qui pense révolutionner le web avec un template WordPress... Pathétique.",
-                  censorContent:
-                    "C'est bien de voir des gens partager leurs projets, même si ce n'est pas parfait.",
-                  severity: "low",
-                },
-              ],
-              isExtensionActive,
-            ],
+            files: ["censored-content.css"],
+          })
+          .catch((error) => {
+            console.error("Erreur lors de l'injection CSS:", error);
           });
-        });
+
+        // Si l'onglet a déjà été traité, ne pas continuer le traitement
+        if (processedTabs[activeTabId]) {
+          console.log(
+            `Onglet ${activeTabId} déjà traité, aucune action nécessaire`
+          );
+          return;
+        }
+
+        // Sinon, continuer avec la récupération des nœuds et le traitement
+        chrome.scripting
+          .executeScript({
+            target: { tabId: activeTabId },
+            func: getHTMLNodes,
+          })
+          .then(async function (results) {
+            if (!results || results.length === 0) {
+              console.log("Aucun résultat reçu");
+              return;
+            }
+
+            nodes = results[0].result;
+            console.log("Nodes récupérés :", nodes);
+            let response = "";
+
+            for (i = 0; i < nodes.length; i++) {
+              response += nodes[i];
+            }
+
+            response = JSON.stringify({ text: response });
+            console.log("Reponse : " + response);
+
+            chrome.tabs
+              .query({ active: true, currentWindow: true })
+              .then(function (tabs) {
+                const activeTab = tabs[0];
+                const activeTabId = activeTab.id;
+
+                chrome.scripting
+                  .executeScript({
+                    target: { tabId: activeTabId },
+                    func: replaceNodes,
+                    args: [
+                      [
+                        {
+                          originalContent:
+                            "Encore un pseudo-intellectuel qui se vante de ses lectures... Tu sais, Netflix existe",
+                          censorContent:
+                            "Chacun ses passions, mais je préfère Netflix personnellement",
+                          severity: "low",
+                        },
+                        {
+                          originalContent:
+                            "Alex t'es trop nul au foot. Tu devrais arreter le foot. T'es inutile!",
+                          censorContent:
+                            "Alex, peut-être que le foot n'est pas ton point fort, mais chacun a ses talents.",
+                          severity: "medium",
+                        },
+                        {
+                          originalContent:
+                            "Laisse-le tranquille @AbdelOgz, c'est pas de sa faute si t'es frustré de ta propre nullité !",
+                          censorContent:
+                            "Laisse-le tranquille @AbdelOgz, chacun a ses moments difficiles.",
+                          severity: "medium",
+                        },
+                        {
+                          originalContent:
+                            "MDR la vérité fait mal mais Abdel a raison, Alex est juste bon à réchauffer le banc",
+                          censorContent:
+                            "MDR, chacun a ses forces, mais peut-être qu'Alex peut s'améliorer avec le temps",
+                          severity: "low",
+                        },
+                        {
+                          originalContent:
+                            "Encore une qui poste des photos de nature pour faire croire qu'elle a une vie interessante...",
+                          censorContent:
+                            "Chacun partage ce qu'il aime, et la nature peut être inspirante",
+                          severity: "low",
+                        },
+                        {
+                          originalContent:
+                            "Super, encore une écolo qui va nous faire la leçon sur comment sauver la planète...",
+                          censorContent:
+                            "C'est bien de voir des gens partager leur passion pour la nature et l'environnement.",
+                          severity: "low",
+                        },
+                        {
+                          originalContent:
+                            "Retourne dans ton pays @AbdelOgz, ton n'a pas besoin de gens comme toi ici!",
+                          censorContent:
+                            "Ce genre de propos est inapproprié. Respectons les autres, peu importe leur origine.",
+                          severity: "high",
+                        },
+                        {
+                          originalContent:
+                            "Franchement Jordan a raison, on peut plus rien dire dans ce pays sans qu'on nous censure",
+                          censorContent:
+                            "Il est important de discuter avec respect, même si les opinions diffèrent",
+                          severity: "medium",
+                        },
+                        {
+                          originalContent:
+                            "J'ai vu ton site... On dirait un projet de collégien. T'appelles ça un design ?",
+                          censorContent:
+                            "J'ai vu ton site, peut-être qu'il y a des points à améliorer, mais c'est un bon début !",
+                          severity: "low",
+                        },
+                        {
+                          originalContent:
+                            "Encore un 'développeur' qui pense révolutionner le web avec un template WordPress... Pathétique.",
+                          censorContent:
+                            "C'est bien de voir des gens partager leurs projets, même si ce n'est pas parfait.",
+                          severity: "low",
+                        },
+                      ],
+                      isExtensionActive,
+                    ],
+                  })
+                  .then(() => {
+                    // Marquer l'onglet comme traité
+                    processedTabs[activeTabId] = true;
+                    chrome.storage.local.set({ processedTabs: processedTabs });
+                    console.log(`Onglet ${activeTabId} marqué comme traité`);
+                  });
+              });
+          });
+      });
     })
     .catch(function (error) {
       console.log("Erreur :", error.message);
     });
 }
+
+// Ajouter un listener pour réinitialiser le statut quand l'URL change
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+  if (changeInfo.status === "complete") {
+    chrome.storage.local.get(["processedTabs"], function (result) {
+      const processedTabs = result.processedTabs || {};
+      if (processedTabs[tabId]) {
+        delete processedTabs[tabId];
+        chrome.storage.local.set({ processedTabs: processedTabs });
+        console.log(
+          `Réinitialisation du traitement pour l'onglet ${tabId} (nouvelle page)`
+        );
+      }
+    });
+  }
+});
 
 function getHTMLNodes() {
   const nodes = [];
@@ -275,8 +293,6 @@ function correctText(text) {
 }
 
 function replaceNodes(correctionsArray, isActive) {
-  console.log("Corrections reçues:", correctionsArray);
-
   if (!isActive) return;
 
   // Collecter tous les nœuds texte d'abord
