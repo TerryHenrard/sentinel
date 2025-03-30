@@ -1,0 +1,92 @@
+/* Animation pour le texte censuré */
+.censored-text {
+  display: inline-block;
+  text-decoration: line-through;
+  animation: fade-out 1.2s forwards;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+/* Animation pour le texte de remplacement */
+.replacement-text {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 1.5s steps(40, end) 0.5s both;
+  border-right: 3px solid transparent;
+  max-width: 0;
+}
+
+/* Container pour regrouper texte censuré et son remplacement */
+.censorship-container {
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 5px;
+  background-color: rgba(245, 245, 245, 0.9);
+}
+
+/* Styles selon la sévérité */
+.severity-low .censored-text {
+  color: #f97316;
+  background: rgba(249, 115, 22, 0.1);
+}
+
+.severity-medium .censored-text {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.severity-high .censored-text {
+  color: #7f1d1d;
+  background: rgba(127, 29, 29, 0.2);
+  font-weight: bold;
+}
+
+.severity-low .replacement-text {
+  color: #047857;
+}
+
+.severity-medium .replacement-text {
+  color: #047857;
+  font-weight: 500;
+}
+
+.severity-high .replacement-text {
+  color: #047857;
+  font-weight: bold;
+}
+
+/* Keyframes pour les animations */
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes typing {
+  0% {
+    max-width: 0;
+  }
+  100% {
+    max-width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #047857;
+  }
+}
